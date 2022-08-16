@@ -125,7 +125,32 @@ const enterRevenueLicenseDetails = async (req, res) => {
     }
 }
 
+const enterInsuranceDetails = async (req, res) => {
+    const token = req.headers['x-access-token']
+    console.log(token)
+    console.log("update Revenue License Details")
+
+    try {
+        console.log(req.body)
+        let vehicles = await Vehicles.findOne({registration_number: req.body.registration_number})
+        vehicles.insurance_num = req.body.insurance_num;
+        vehicles.insurance_issue_date = req.body.insurance_issue_date;
+        vehicles.insurance_expire_date = req.body.insurance_expire_date;
+        console.log(vehicles)
+        vehicles.save(function(err, user) {
+            if (err) return res.json({status: 'err', vehicles: vehicles, msg: "Something went wrong"});
+            res.json({status: 'ok', vehicles: vehicles, msg: 'update successful!! '})
+        });
+
+
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(403);
+        res.json({status: 'error', error: 'Something went wrong'})
+    }
+}
 
 
 
-module.exports = {createVehicle, getVehicles, updateLatestOdoReading, searchVehicles, enterRevenueLicenseDetails};
+
+module.exports = {createVehicle, getVehicles, updateLatestOdoReading, searchVehicles, enterRevenueLicenseDetails, enterInsuranceDetails};

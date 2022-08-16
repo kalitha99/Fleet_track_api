@@ -9,6 +9,7 @@ router.get('/getVehicles', verifyJWT, verifyRoles('admin', 'user'), vehicleContr
 router.post('/searchVehicles', verifyJWT, verifyRoles('admin', 'user'), vehicleController.searchVehicles);
 router.post('/updateOdo', verifyJWT, verifyRoles('admin', 'user'), vehicleController.updateLatestOdoReading);
 router.post('/updateRevenueLicense', verifyJWT, verifyRoles('admin', 'user'), vehicleController.enterRevenueLicenseDetails);
+router.post('/updateInsuranceDetails', verifyJWT, verifyRoles('admin', 'user'), vehicleController.enterInsuranceDetails);
 
 
 module.exports = router;
