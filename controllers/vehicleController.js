@@ -73,7 +73,7 @@ const searchVehicles = async (req, res) => {
     } catch (error) {
         console.log(error)
         res.sendStatus(403);
-        res.json({status: 'error', error: 'invalid token'})
+        res.json({status: 'error', error: 'Something went wrong'})
     }
 }
 
@@ -88,17 +88,44 @@ const updateLatestOdoReading = async (req, res) => {
         let vehicles = await Vehicles.findOne({registration_number: req.body.registration_number})
         vehicles.latest_odo_reading = req.body.new_odo;
         console.log(vehicles)
-        vehicles.save();
-        return res.json({status: 'ok', vehicles: vehicles, msg: 'update successful!! '})
+        vehicles.save(function(err, user) {
+            if (err) return res.json({status: 'err', vehicles: vehicles, msg: "Something went wrong"});
+            res.json({status: 'ok', vehicles: vehicles, msg: 'update successful!! '})
+        });
 
     } catch (error) {
         console.log(error)
         res.sendStatus(403);
-        res.json({status: 'error', error: 'invalid token'})
+        res.json({status: 'error', error: 'Something went wrong'})
+    }
+}
+
+const enterRevenueLicenseDetails = async (req, res) => {
+    const token = req.headers['x-access-token']
+    console.log(token)
+    console.log("update Revenue License Details")
+
+    try {
+        console.log(req.body)
+        let vehicles = await Vehicles.findOne({registration_number: req.body.registration_number})
+        vehicles.revenue_license_num = req.body.revenue_license_num;
+        vehicles.revenue_license_issue_date = req.body.revenue_license_issue_date;
+        vehicles.revenue_license_expire_date = req.body.revenue_license_expire_date;
+        console.log(vehicles)
+        vehicles.save(function(err, user) {
+            if (err) return res.json({status: 'err', vehicles: vehicles, msg: "Something went wrong"});
+            res.json({status: 'ok', vehicles: vehicles, msg: 'update successful!! '})
+        });
+
+
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(403);
+        res.json({status: 'error', error: 'Something went wrong'})
     }
 }
 
 
 
 
-module.exports = {createVehicle, getVehicles, updateLatestOdoReading, searchVehicles};
+module.exports = {createVehicle, getVehicles, updateLatestOdoReading, searchVehicles, enterRevenueLicenseDetails};

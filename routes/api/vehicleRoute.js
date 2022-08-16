@@ -8,6 +8,7 @@ router.post('/addNewVehicle', verifyJWT, verifyRoles('admin'), vehicleController
 router.get('/getVehicles', verifyJWT, verifyRoles('admin', 'user'), vehicleController.getVehicles);
 router.post('/searchVehicles', verifyJWT, verifyRoles('admin', 'user'), vehicleController.searchVehicles);
 router.post('/updateOdo', verifyJWT, verifyRoles('admin', 'user'), vehicleController.updateLatestOdoReading);
+router.post('/updateRevenueLicense', verifyJWT, verifyRoles('admin', 'user'), vehicleController.enterRevenueLicenseDetails);
 
 
 module.exports = router;
