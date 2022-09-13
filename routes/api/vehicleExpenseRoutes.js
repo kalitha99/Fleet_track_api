@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const vehicleExpenseController = require('./../../controllers/vehicleExpenseController')
+const vehicleServiceExpenseController = require('./../../controllers/vehicleServiceExpenseController')
+const vehicleFuelExpenseController = require('./../../controllers/fuelExpensesController')
 const verifyJWT = require('../../middelware/verifyJWT')
 const verifyRoles = require('../../middelware/verifyRoles')
 const multer = require('multer')
@@ -18,6 +20,9 @@ const storage = multer.diskStorage({
 const upload = multer({storage:storage})
 
 
-router.post('/addVehicleExpense', verifyJWT, verifyRoles('admin', 'user'),upload.single("image"), vehicleExpenseController.addVehicleExpense);
+router.post('/addVehicleExpense',upload.single("image"), vehicleExpenseController.addVehicleExpense);
+router.post('/addFuelExpense',upload.single("image"), vehicleFuelExpenseController.addFuelExpense);
+router.post('/addVehicleServiceExpense',upload.single("image"), vehicleServiceExpenseController.addVehicleServiceExpense);
+router.post('/getVehiclesWithExpenses',upload.single("image"), vehicleExpenseController.getVehiclesWithExpenses);
 
 module.exports = router;
